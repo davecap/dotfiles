@@ -1,11 +1,6 @@
-                  _
-           __   _(_)_ __ ___  _ __ ___
-           \ \ / / | '_ ` _ \| '__/ __|
-            \ V /| | | | | | | | | (__
-             \_/ |_|_| |_| |_|_|  \___|
+# dotfiles
 
-
-## Install
+## Vimrc Notes
 
 Make sure you don't already have a `~/.vimrc` and `~/.vim/`. If you do, back
 them up!

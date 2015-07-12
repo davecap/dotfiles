@@ -1,0 +1,20 @@
+[user]
+	name = David Caplan
+	email = dcaplan@gmail.com
+[credential]
+	helper = osxkeychain
+[color]
+	ui = true
+[push]
+	default = simple
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[core]
+	editor = /usr/bin/vim
+[gitflow "branch"]
+	develop = dev
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true

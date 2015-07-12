@@ -18,18 +18,21 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'tComment'
 Plugin 'The-NERD-tree'
 Plugin 'python.vim'
+Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'Solarized'
 Plugin 'Syntastic'
 Plugin 'vividchalk.vim'
-Plugin 'SuperTab'
+" Plugin 'SuperTab'
 Plugin 'fugitive.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'bling/vim-airline'
 Plugin 'ctrlp.vim'
 Plugin 'molokai'
 Plugin 'pangloss/vim-javascript'
-Bundle 'git://github.com/davidhalter/jedi-vim'
+Plugin 'davidhalter/jedi-vim'
 Bundle 'git://github.com/reedes/vim-lexical'
+Bundle 'ervandew/supertab'
+Plugin 'jcfaria/Vim-R-plugin'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -62,8 +65,23 @@ set hlsearch
 " Disable preview pane
 set completeopt=longest,menuone
 
+" Disable jedi popup on dots
+let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = "2"
+" let g:jedi#completions_enabled = 0
+" Disable docstring window on completion
+" autocmd FileType python setlocal completeopt-=preview
+
+" Disable rope, fixes slow jedi python
+let g:pymode_rope = 0
+
+" Supertab fixes on new lines
+let g:SuperTabNoCompleteAfter = ['^', ',', '\s']
+
 " javascript folding
 let b:javascript_fold = 0
+
+let vimrplugin_assign = 0
 
 set encoding=utf-8 " Necessary to show Unicode glyphs
 
@@ -88,6 +106,8 @@ set showcmd             " show command in bottom bar
 " set background=dark
 " colorscheme solarized
 
+set backspace=indent,eol,start
+
 " Set terminal colors to 256
 set t_Co=256
 " colorscheme vividchalk
@@ -95,7 +115,7 @@ colorscheme molokai
 " let g:molokai_original = 1
 
 " Line numbers
-set number
+" set number
 set numberwidth=5
 
 " Tabs
@@ -111,6 +131,9 @@ set showmatch           " highlight matching [{()}]
 " set list
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬
+
+" Quick toggle paste mode
+set pastetoggle=<F2>
 
 " nnoremap // :TComment<CR>
 " vnoremap // :TComment<CR>
@@ -133,6 +156,45 @@ autocmd FileType markdown setlocal spell
 
 " Automatically wrap at 80 characters for Markdown
 autocmd BufRead,BufNewFile *.md setlocal textwidth=80
+
+" JS indenting
+autocmd FileType javascript set sw=2
+autocmd FileType javascript set ts=2
+autocmd FileType javascript set sts=2
+autocmd FileType javascript set textwidth=79
+
+" CtrlP
+" Setup some default ignores
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+    \ 'file': '\v\.(pyc|exe|so|dll|class|png|jpg|jpeg)$',
+    \}
+
+" Use the nearest .git directory as the cwd
+" This makes a lot of sense if you are working on a project that is in
+" control. It also supports works with .svn, .hg, .bzr.
+let g:ctrlp_working_path_mode = 'r'
+
+let g:ctrlp_use_caching = 0
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor
+
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+else
+    " ctrl-p use git if available
+    let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+    let g:ctrlp_prompt_mappings = {
+                \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+                \ }
+endif
+
+" Use a leader instead of the actual named binding
+nmap <leader>p :CtrlP<cr>
+
+" Easy bindings for its various modes
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
 
 " In gvim, this makes copying use the system's clipboard
 " set clipboard=unnamed
