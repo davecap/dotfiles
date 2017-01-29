@@ -1,20 +1,41 @@
 [user]
 	name = David Caplan
 	email = dcaplan@gmail.com
-[credential]
-	helper = osxkeychain
+# [credential]
+# 	helper = osxkeychain
 [color]
 	ui = true
 [push]
-	default = simple
+    default = current
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
 [core]
-	editor = /usr/bin/vim
-[gitflow "branch"]
-	develop = dev
+	editor = vim
 [filter "hawser"]
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
 	required = true
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[alias]
+    lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%an%d%Creset %s %Cgreen(%cr)%Creset' --date=relative
+    undo = reset HEAD~1 --mixed
+    co = checkout
+    br = branch
+    cob = checkout -b
+    ready = rebase -i master
+    ls = log --pretty=format:"%C(yellow)%h%C(cyan)%d%C(green) %s %C(white)- %an, %ar%Creset" --decorate --numstat
+    d = diff --color-words --ignore-space-change
+    amend = commit -a --amend
+    pb = "!git push origin \"$(git rev-parse --abbrev-ref HEAD)\""
+    up = "!git pull origin \"$(git rev-parse --abbrev-ref HEAD)\""
+    pr = "!open \"$(git remote -v | grep origin | grep push | cut -f 2 | cut -d \" \" -f 1 | sed -e \"s|git@\\(.*\\):\\(.*\\).git|https://\\1/\\2|\")/pull/new/$(git rev-parse --abbrev-ref HEAD)\""
+    gh = "!open \"$(git remote -v | grep origin | grep push | cut -f 2 | cut -d \" \" -f 1 | sed -e \"s|git@\\(.*\\):\\(.*\\).git|https://\\1/\\2|\")/tree/$(git rev-parse --abbrev-ref HEAD)\""
+    la = "!git config -l | grep alias | cut -c 7-"
+    cm = "!git add -A && git commit -m "
+    pushup = push -u
+    bclean = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs git branch -d; git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D; }; f"
+    bdone = "!f() { git checkout ${1-master} && git sync && git bclean ${1-master}; }; f"

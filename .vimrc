@@ -13,14 +13,16 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " PLUGINS
+Plugin 'unblevable/quick-scope'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'tComment'
 Plugin 'The-NERD-tree'
-Plugin 'python.vim'
+" Plugin 'python.vim'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'Solarized'
-Plugin 'Syntastic'
+" Plugin 'Syntastic'
+Plugin 'w0rp/ale'
 Plugin 'vividchalk.vim'
 " Plugin 'SuperTab'
 Plugin 'fugitive.vim'
@@ -29,10 +31,14 @@ Plugin 'bling/vim-airline'
 Plugin 'ctrlp.vim'
 Plugin 'molokai'
 Plugin 'pangloss/vim-javascript'
-Plugin 'davidhalter/jedi-vim'
+" Plugin 'davidhalter/jedi-vim'
 Bundle 'git://github.com/reedes/vim-lexical'
 Bundle 'ervandew/supertab'
 Plugin 'jcfaria/Vim-R-plugin'
+Plugin 'git://github.com/hashivim/vim-terraform'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'maralla/completor.vim'
+Plugin 'wakatime/vim-wakatime'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -51,8 +57,8 @@ filetype plugin indent on    " required
 syntax enable
 
 " Syntax error checking
-let g:syntastic_enable_highlighting = 1
-autocmd FileType python let b:syntastic_checkers = ["flake8"]
+" let g:syntastic_enable_highlighting = 1
+" autocmd FileType python let b:syntastic_checkers = ["flake8"]
 
 " Disable folding
 set nofoldenable
@@ -95,14 +101,16 @@ set laststatus=2
 set showcmd             " show command in bottom bar
 " set cursorline
 
-" solarized options 
+" solarized options
 " NOTE: solarized color scheme is annoying to get working
-"       on OS X for some reason. I use 
+"       on OS X for some reason.
 " set t_Co=256
 " let g:solarized_visibility = "low"
 " let g:solarized_contrast = "high"
 " let g:solarized_termcolors = 256
 " let g:solarized_termtrans = 1
+" let g:solarized_visibility = "high"
+" let g:solarized_contrast = "high"
 " set background=dark
 " colorscheme solarized
 
@@ -198,3 +206,6 @@ nmap <leader>bs :CtrlPMRU<cr>
 
 " In gvim, this makes copying use the system's clipboard
 " set clipboard=unnamed
+
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
